@@ -1,0 +1,14 @@
+.gitignore
+Changes
+LICENSE
+MANIFEST
+MANIFEST.SKIP
+Makefile.PL
+Makefile.old
+README.md
+lib/Test/Expressive.pm
+t/00-load.t
+t/manifest.t
+t/pod-coverage.t
+t/pod.t
+xt/boilerplate.t
