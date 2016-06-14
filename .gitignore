@@ -14,7 +14,11 @@ Build.bat
 /META.json
 /MYMETA.*
 nytprof.out
+nytprof
 /pm_to_blib
 *.o
 *.bs
 /_eumm/
+pod2htm*.tmp
+Test-Expressive-*
+Test-Expressive-*.tar.gz
