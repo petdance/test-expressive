@@ -1,41 +1,103 @@
-# Test::Expressive
+package Test::Expressive;
 
-Test::Expressive, a set of helper functions to make Perl tests easier to read
+use 5.010;
+use strict;
+use warnings;
 
-# INSTALLATION
+=head1 NAME
 
-To install this module, run the following commands:
+Test::Expressive - The great new Test::Expressive!
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+=head1 VERSION
 
-# SUPPORT AND DOCUMENTATION
+Version 0.01
 
-After installing, you can find documentation for this module with the
-`perldoc` command.
+=cut
+
+our $VERSION = '0.01';
+
+
+=head1 SYNOPSIS
+
+Quick summary of what the module does.
+
+Perhaps a little code snippet.
+
+    use Test::Expressive;
+
+    my $foo = Test::Expressive->new();
+    ...
+
+=head1 EXPORT
+
+A list of functions that can be exported.  You can delete this section
+if you don't export anything, such as for a purely object-oriented module.
+
+=head1 SUBROUTINES/METHODS
+
+=head2 function1
+
+=cut
+
+sub function1 {
+}
+
+=head2 function2
+
+=cut
+
+sub function2 {
+}
+
+=head1 AUTHOR
+
+Andy Lester, C<< <andy at petdance.com> >>
+
+=head1 BUGS
+
+Please report any bugs or feature requests to C<bug-test-expressive at rt.cpan.org>, or through
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-Expressive>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+
+
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
 
     perldoc Test::Expressive
 
+
 You can also look for information at:
 
-    RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Expressive
+=over 4
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Test-Expressive
+=item * RT: CPAN's request tracker (report bugs here)
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Test-Expressive
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Expressive>
 
-    Search CPAN
-        http://search.cpan.org/dist/Test-Expressive/
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Test-Expressive>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Test-Expressive>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/Test-Expressive/>
+
+=back
 
 
-# LICENSE AND COPYRIGHT
+=head1 ACKNOWLEDGEMENTS
 
-Copyright (C) 2016 Andy Lester
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2016 Andy Lester.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the the Artistic License (2.0). You may obtain a
@@ -72,3 +134,8 @@ YOUR LOCAL LAW. UNLESS REQUIRED BY LAW, NO COPYRIGHT HOLDER OR
 CONTRIBUTOR WILL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, OR
 CONSEQUENTIAL DAMAGES ARISING IN ANY WAY OUT OF THE USE OF THE PACKAGE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+=cut
+
+1; # End of Test::Expressive
