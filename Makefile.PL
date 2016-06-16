@@ -5,7 +5,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME             => 'Test::Expressive',
-    AUTHOR           => q{Andy Lester <andy@petdance.com>},
+    AUTHOR           => 'Andy Lester <andy@petdance.com>',
     VERSION_FROM     => 'lib/Test/Expressive.pm',
     ABSTRACT_FROM    => 'lib/Test/Expressive.pm',
     LICENSE          => 'artistic_2',
@@ -18,8 +18,7 @@ WriteMakefile(
         'Test::More' => 0,
     },
     PREREQ_PM => {
-        #'ABC'              => 1.6,
-        #'Foo::Bar::Module' => 5.0401,
+        'Test2::API' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Test-Expressive-*' },
