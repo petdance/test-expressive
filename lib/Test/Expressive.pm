@@ -4,6 +4,8 @@ use 5.010;
 use strict;
 use warnings;
 
+use Test2::API qw( context );
+
 =head1 NAME
 
 Test::Expressive - Helper functions for writing tests that say what you really mean.
@@ -15,6 +17,15 @@ Version 0.01
 =cut
 
 our $VERSION = '0.01';
+
+use base 'Exporter';
+
+our @EXPORT_OK = qw(
+    is_even
+);
+
+our @EXPORT = @EXPORT_OK;
+
 
 
 =head1 SYNOPSIS
@@ -61,35 +72,30 @@ want them to.
 Test::Expressive is based on the idea that the reader should be able to
 tell as much from English as possible without having to decipher code.
 
-
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Test::Expressive;
-
-    my $foo = Test::Expressive->new();
-    ...
-
 =head1 EXPORT
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
+All functions in this module are exported by default.
 
 =cut
 
-sub function1 {
-}
+=head1 SUBROUTINES
 
-=head2 function2
+=head2 is_even( $n [, $name ] )
+
+Checks whether the number C<$n> is a nonnegative integer and is even or zero.
 
 =cut
 
-sub function2 {
+sub is_even($;$) {
+    my $n   = shift;
+    my $name = shift;
+
+    my $ok = $n % 2 == 0;
+    my $ctx = context(); # Get a context
+    $ctx->ok( $ok, $name );
+    $ctx->release; # Release the context
+
+    return $ok;
 }
 
 =head1 AUTHOR

@@ -8,6 +8,7 @@ Makefile.old
 README.md
 lib/Test/Expressive.pm
 t/00-load.t
+t/is_even.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
