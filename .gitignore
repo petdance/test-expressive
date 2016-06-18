@@ -20,5 +20,10 @@ nytprof
 *.bs
 /_eumm/
 pod2htm*.tmp
+
+# Distro directories
 Test-Expressive-*
 Test-Expressive-*.tar.gz
+
+# Symlink for convenience
+Expressive.pm

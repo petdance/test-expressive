@@ -6,9 +6,12 @@ use warnings;
 
 use Test2::API qw( context );
 
+use Test::More;
+use Scalar::Util qw( looks_like_number );
+
 =head1 NAME
 
-Test::Expressive - Helper functions for writing tests that say what you really mean.
+Test::Expressive - Test functions that say what you really mean.
 
 =head1 VERSION
 
@@ -21,12 +24,33 @@ our $VERSION = '0.01';
 use base 'Exporter';
 
 our @EXPORT_OK = qw(
+    is_number
+    is_integer
+    is_positive_integer
+    is_nonnegative_integer
+    cmp_integer_ok
     is_even
+    is_odd
+
+    bool_eq
+
+    is_undef
+
+    is_empty_array
+    is_nonempty_array
+
+    is_empty_hash
+    is_nonempty_hash
+
+    is_nonblank
+    is_blank
+
+    keys_exist_ok
+
+    maybe_others_from_carp_asssert_more
 );
 
 our @EXPORT = @EXPORT_OK;
-
-
 
 =head1 SYNOPSIS
 
@@ -41,10 +65,10 @@ our @EXPORT = @EXPORT_OK;
 
 =head1 WHY TEST::EXPRESSIVE?
 
-Test::Expressive is designed to make your code more readable, based on the
-idea that reading English is easier and less prone to misinterpretation
-than reading Perl, and less prone to error by reducing common cut &
-paste tasks.
+Test::Expressive is designed to make your code more readable, based
+on the idea that reading English is easier and less prone to
+misinterpretation than reading Perl, and less prone to error by
+reducing common cut & paste tasks.
 
 Conside either of these two tests:
 
@@ -76,9 +100,111 @@ tell as much from English as possible without having to decipher code.
 
 All functions in this module are exported by default.
 
+=head1 NUMERIC SUBROUTINES
+
+=head1 is_number( $n [, $name ] )
+
+Tests that 
+
 =cut
 
-=head1 SUBROUTINES
+sub is_number($;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $n    = shift;
+    my $name = shift;
+
+    my $n_desc = $n // 'undef';
+
+    return ok( looks_like_number( $n ), $name );
+}
+
+=head2 is_integer( $n [, $name ] )
+
+Tests if C<$n> is an integer.
+
+The following are integers:
+
+    1
+    -1
+    +1
+    0E0
+    9E14
+    -9E14
+
+The following are not:
+
+    string representations of integers
+    1.
+    1.0
+    'abc'
+    ''
+    undef
+    Any reference
+
+=cut
+
+sub is_integer($;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $n    = shift;
+    my $name = shift // '';
+
+    return subtest "is_integer( $name )" => sub {
+        ok( looks_like_number( $n ), 'is_integer needs a number' )
+            and
+        like( $n, qr/^[-+]?\d+(?:E\d+)?$/, "is_integer( $name )" );
+    };
+}
+
+
+=head2 cmp_integer_ok( $got, $op, $expected [, $name ] )
+
+=cut
+
+sub cmp_integer_ok($$$;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $got      = shift;
+    my $op       = shift;
+    my $expected = shift;
+    my $name     = shift // '';
+
+    return subtest "cmp_integer_ok( $name )" => sub {
+        is_integer( $got )
+            and
+        cmp_ok( $got, $op, $expected );
+    };
+}
+
+
+=head2 is_positive_integer( $n [, $name ] )
+
+=cut
+
+sub is_positive_integer($;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $n    = shift;
+    my $name = shift;
+
+    return cmp_integer_ok( $n, '>', 0, $name );
+}
+
+
+=head2 is_nonnegative_integer( $n [, $name ] )
+
+=cut
+
+sub is_nonnegative_integer($;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $n    = shift;
+    my $name = shift;
+
+    return cmp_integer_ok( $n, '>=', 0, $name );
+}
+
 
 =head2 is_even( $n [, $name ] )
 
@@ -86,7 +212,6 @@ Checks whether the number C<$n> is a nonnegative integer and is even or zero.
 
 =cut
 
-use Test::More;
 sub is_even($;$) {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
 
@@ -94,11 +219,30 @@ sub is_even($;$) {
     my $name = shift;
 
     return subtest "is_even( $name )" => sub {
-        like( $n, qr/^\d+$/, 'Is it looking like an integer?' );
-        cmp_ok( $n, '>=', 0, 'Is it non-negative?' );
-        is( $n % 2, 0, 'Is it divisible by two?' );
+        is_nonnegative_integer( $n )
+            && ok( $n % 2 == 0, 'Is it divisible by two?' );
     };
 }
+
+
+=head2 is_odd( $n [, $name ] )
+
+Checks whether the number C<$n> is a nonnegative integer and is odd.
+
+=cut
+
+sub is_odd($;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    my $n   = shift;
+    my $name = shift;
+
+    return subtest "is_odd( $name )" => sub {
+        is_nonnegative_integer( $n )
+            && ok( $n % 2 == 0, 'Is it divisible by two?' );
+    };
+}
+
 
 =head1 AUTHOR
 
