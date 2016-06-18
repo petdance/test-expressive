@@ -86,16 +86,18 @@ Checks whether the number C<$n> is a nonnegative integer and is even or zero.
 
 =cut
 
+use Test::More;
 sub is_even($;$) {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
     my $n   = shift;
     my $name = shift;
 
-    my $ok = $n % 2 == 0;
-    my $ctx = context(); # Get a context
-    $ctx->ok( $ok, $name );
-    $ctx->release; # Release the context
-
-    return $ok;
+    return subtest "is_even( $name )" => sub {
+        like( $n, qr/^\d+$/, 'Is it looking like an integer?' );
+        cmp_ok( $n, '>=', 0, 'Is it non-negative?' );
+        is( $n % 2, 0, 'Is it divisible by two?' );
+    };
 }
 
 =head1 AUTHOR
