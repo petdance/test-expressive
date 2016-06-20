@@ -12,4 +12,5 @@ t/is_even.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+t/TestExpressiveUtils.pm
 xt/boilerplate.t
