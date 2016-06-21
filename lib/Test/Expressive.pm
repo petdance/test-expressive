@@ -160,7 +160,32 @@ sub is_integer($;$) {
 
 =head2 cmp_integer_ok( $got, $op, $expected [, $name ] )
 
+Tests that both C<$got> and C<$expected> are valid integers, and match
+the comparator C<$op>.
+
+This is a strengthened version of C<cmp_ok>.  With normal C<cmp_ok>,
+you can get back unexpected values that still match, such as:
+
+    cmp_ok( '',    '==', 0 );       # Passes
+    cmp_ok( undef, '==', 0 );       # Passes
+    cmp_ok( 'abc', '==', 0 );       # Passes
+    cmp_ok( 'abc', '==', 'xyz' );   # Passes
+
+These will all throw various warnings if the C<warnings> pragma is on,
+but the tests will still pass.
+
+C<cmp_integer_ok> is more stringent and will catch accidental passes.
+
+    cmp_integer_ok( '',    '==', 0 );   # Fails
+    cmp_integer_ok( undef, '==', 0 );   # Fails
+
+It also checks that your comparator is valid.
+
+    cmp_integer_ok( 0,     'eq', 0 );   # Fails because 'eq' isn't valid for integers
+
 =cut
+
+my %valid_integer_op = map { $_ => 1 } qw( == != > >= < <= );
 
 sub cmp_integer_ok($$$;$) {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -171,7 +196,11 @@ sub cmp_integer_ok($$$;$) {
     my $name     = shift // '';
 
     return subtest "cmp_integer_ok( $name )" => sub {
+        ok( $valid_integer_op{ $op }, "$op is a valid integer operator" )
+            and
         is_integer( $got )
+            and
+        is_integer( $expected )
             and
         cmp_ok( $got, $op, $expected );
     };

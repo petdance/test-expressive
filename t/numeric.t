@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 use Test::Expressive;
 
@@ -60,7 +60,6 @@ subtest is_integer => sub {
         'letters'           => 'abc',
         'empty string'      => '',
         'undef'             => undef,
-        'arrayref'          => [],
         'hashref'           => {},
     );
 
@@ -86,7 +85,6 @@ subtest is_positive_integer => sub {
         'letters'           => 'abc',
         'empty string'      => '',
         'undef'             => undef,
-        'arrayref'          => [],
         'hashref'           => {},
     );
 
@@ -112,11 +110,44 @@ subtest is_nonnegative_integer => sub {
         'letters'           => 'abc',
         'empty string'      => '',
         'undef'             => undef,
-        'arrayref'          => [],
         'hashref'           => {},
     );
 
     tests_pass_fail( \&is_nonnegative_integer, \%passers, \%failers );
+};
+
+
+subtest cmp_integer_ok => sub {
+    my %passers = (
+        'equal'     => [ 0, '==', 0 ],
+        'not equal' => [ -14, '!=', 14 ],
+        'gt'        => [ 15, '>', 12 ],
+        'lt'        => [ 2112, '<', 5150 ],
+        'gte'       => [ 2112, '>=', 2112 ],
+        'lte'       => [ 5150, '<=', 5150 ],
+    );
+
+    my %failers = (
+        'equal'     => [ 1, '==', 0 ],
+        'not equal' => [ 14, '!=', 14 ],
+        'gt'        => [ 12, '>', 15 ],
+        'lt'        => [ 2112, '<', 2112 ],
+        'gte'       => [ 2112, '>=', 5150 ],
+        'lte'       => [ 5150, '<=', 2112 ],
+
+        # Now some non-integers that would evaluate to zero but are still not integers.
+        'Cannot use string comparators' => [ 0, 'eq', 0 ],
+        'undefs are not =='             => [ undef, '==', undef ],
+        'undefs are not eq'             => [ undef, 'eq', undef ],
+        'Empty strings are not =='      => [ '', '==', '' ],
+        'Empty strings are not eq'      => [ '', 'eq', '' ],
+        'Strings are not =='            => [ 'abc', '==', 'abc' ],
+        'Strings are not eq'            => [ 'abc', 'eq', 'abc' ],
+        'Hashrefs are not =='           => [ {}, '==', {} ],
+        'Hashrefs are not eq'           => [ {}, 'eq', {} ],
+    );
+
+    tests_pass_fail( \&cmp_integer_ok, \%passers, \%failers );
 };
 
 done_testing();

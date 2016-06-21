@@ -20,13 +20,17 @@ sub tests_pass_fail {
     my $failers = shift;
 
     while ( my ($desc,$val) = each %{$passers} ) {
-        my $events = intercept { $sub->( $val ) };
+        my @args = ref($val) eq 'ARRAY' ? @{$val} : ($val);
+        my $events = intercept { $sub->( @args ) };
+
         my $fails_somewhere = grep { $_->causes_fail } @{$events};
         ok( !$fails_somewhere, "Should pass: $desc" );
     }
 
     while ( my ($desc,$val) = each %{$failers} ) {
-        my $events = intercept { $sub->( $val ) };
+        my @args = ref($val) eq 'ARRAY' ? @{$val} : ($val);
+        my $events = intercept { $sub->( @args ) };
+
         my $fails_somewhere = grep { $_->causes_fail } @{$events};
         ok( $fails_somewhere, "Should fail: $desc" );
     }
