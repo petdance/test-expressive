@@ -300,10 +300,6 @@ You can also look for information at:
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-Expressive>
 
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Test-Expressive>
-
 =item * CPAN Ratings
 
 L<http://cpanratings.perl.org/d/Test-Expressive>
